@@ -28,7 +28,6 @@ export class UserService {
 
   //Returns a specific user
   async findOne(user_id: number): Promise<User> {
-    //NOTE!! Delete relationships so this code is faster
     const user = await this.userRepository.findOne({
       where: { user_id: user_id },
       relations: [/**/], 
