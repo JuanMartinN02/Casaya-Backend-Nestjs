@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({ name: 'Property' })
@@ -20,4 +21,7 @@ export class Property {
 
     @Column()
     floors: number;
+
+    @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
+    user: User;
 }

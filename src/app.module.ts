@@ -20,6 +20,8 @@ import { Address } from './address/entities/address.entity';
       database: 'casaya_db',
       entities: [User, Property, Address],
       synchronize: true,
+      
+      /* Reinicia la BD */ 
       dropSchema: true,
     }),
     UserModule,

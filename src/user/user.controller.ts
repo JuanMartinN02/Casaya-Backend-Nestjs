@@ -22,7 +22,7 @@ export class UserController {
     return this.userService.findOne(+user_id);
   }
 
-  //NOTA! VERIFICAR, NO FUNCIONA BIEN
+  //NOTA! VERIFY THAT IT WORKS FINE
   @Put(':user_id') //Patch only patches the entity while Put replaces the whole entity. NOTE! Choose one. (Put is better IMO)
   async update(@Param('user_id', ParseIntPipe) user_id: number, @Body() updateUserDto: UpdateUserDto) {
     await this.userService.update(user_id, updateUserDto);

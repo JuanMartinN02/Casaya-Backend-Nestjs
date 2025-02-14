@@ -3,32 +3,49 @@ import { PropertyService } from './property.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 
-@Controller('Properties')
+@Controller('users')
 export class PropertyController {
   constructor(private readonly propertyService: PropertyService) {}
 
-  @Post()
-  create(@Body() createPropertyDto: CreatePropertyDto) {
-    return this.propertyService.create(createPropertyDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.propertyService.findAll();
-  }
-
-  @Get(':property_id')
-  findOne(@Param('property_id') property_id: number) {
-    return this.propertyService.findOne(+property_id);
-  }
-
-  @Put(':property_id') 
-  async update(@Param('property_id', ParseIntPipe) property_id: number, @Body() updatePropertyDto: UpdatePropertyDto) {
-    await this.propertyService.update(property_id, updatePropertyDto);
-  }
-
-  @Delete(':property_id')
-  remove(@Param('property_id', ParseIntPipe) property_id: number) {
-    return this.propertyService.remove(property_id);
-  }
+   //Create a property for a user
+   @Post(':user_id/properties')
+   create(
+     @Param('user_id', ParseIntPipe) user_id: number,
+     @Body() createPropertyDto: CreatePropertyDto,
+   ) {
+     return this.propertyService.create(user_id, createPropertyDto);
+   }
+ 
+   // Get all properties for a specific user
+   @Get(':user_id/properties') 
+   findAll(@Param('user_id', ParseIntPipe) user_id: number) {
+     return this.propertyService.findAll(user_id);
+   }
+ 
+   // Get a specific property for a specific user
+   @Get(':user_id/properties/:property_id') 
+   findOne(
+     @Param('user_id', ParseIntPipe) user_id: number,
+     @Param('property_id', ParseIntPipe) property_id: number,
+   ) {
+     return this.propertyService.findOne(user_id, property_id);
+   }
+ 
+   // Update a specific property for a user
+   @Patch(':user_id/properties/:property_id')
+   update(
+     @Param('property_id', ParseIntPipe) property_id: number,
+     @Body() updatePropertyDto: UpdatePropertyDto
+   ) {
+     return this.propertyService.update(property_id, updatePropertyDto);
+   }
+ 
+   // Delete a specific property for a user
+   @Delete(':user_id/properties/:property_id') 
+   remove(
+     @Param('user_id', ParseIntPipe) user_id: number,
+     @Param('property_id', ParseIntPipe) property_id: number
+   ) {
+     return this.propertyService.remove(user_id, property_id);
+   }
 }

@@ -1,3 +1,4 @@
+import { Property } from "src/property/entities/property.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
@@ -20,4 +21,10 @@ export class User {
 
     @Column()
     phone: string;
+
+    //Relationship with Properties
+    @OneToMany(() => Property, (property) => property.user, {
+        cascade: true,
+    })
+    properties: Property[];
 }
