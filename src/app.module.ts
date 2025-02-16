@@ -12,12 +12,13 @@ import { Address } from './address/entities/address.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'AdminJuan',
-      password: 'Admin0204',
-      database: 'casaya_db',
+      "type": "postgres",
+      "host": "db",
+      "port": 5432,
+      "username": "user",
+      "password": "password",
+      "database": "realestate",
+      "logging": true,
       entities: [User, Property, Address],
       synchronize: true,
       

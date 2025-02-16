@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Property } from "src/property/entities/property.entity";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({ name: 'Address' })
@@ -17,5 +18,9 @@ export class Address {
 
     @Column()
     municipality: string;
+
+    //Relationship with Properties
+    @OneToOne(() => Property, (property) => property.address)
+    property: Property;
 }
 
