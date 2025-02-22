@@ -7,6 +7,9 @@ export class User {
     @PrimaryGeneratedColumn()
     user_id: number;
 
+    @Column({ nullable: true })
+    profilePicture: string; 
+
     @Column()
     name: string;
 

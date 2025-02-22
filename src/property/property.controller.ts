@@ -5,7 +5,7 @@ import { UpdatePropertyDto } from './dto/update-property.dto';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Properties')
-@Controller('users')
+@Controller('properties')
 export class PropertyController {
   constructor(private readonly propertyService: PropertyService) {}
 
@@ -13,7 +13,7 @@ export class PropertyController {
   @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
   @ApiParam({ name: 'address_id', type: Number, description: 'Address ID' })
   @ApiBody({ type: CreatePropertyDto })
-  @Post(':user_id/properties/:address_id')
+  @Post(':user_id/:address_id')
   create(
     @Param('user_id', ParseIntPipe) user_id: number,
     @Param('address_id', ParseIntPipe) address_id: number,
@@ -24,7 +24,7 @@ export class PropertyController {
 
   @ApiOperation({ summary: 'Get all properties for a specific user' })
   @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
-  @Get(':user_id/properties') 
+  @Get(':user_id') 
   findAll(@Param('user_id', ParseIntPipe) user_id: number) {
     return this.propertyService.findAll(user_id);
   }
@@ -32,7 +32,7 @@ export class PropertyController {
   @ApiOperation({ summary: 'Get a specific property for a user' })
   @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
   @ApiParam({ name: 'property_id', type: Number, description: 'Property ID' })
-  @Get(':user_id/properties/:property_id') 
+  @Get(':user_id/:property_id') 
   findOne(
     @Param('user_id', ParseIntPipe) user_id: number,
     @Param('property_id', ParseIntPipe) property_id: number,
@@ -43,7 +43,7 @@ export class PropertyController {
   @ApiOperation({ summary: 'Update a specific property for a user' })
   @ApiParam({ name: 'property_id', type: Number, description: 'Property ID' })
   @ApiBody({ type: UpdatePropertyDto })
-  @Patch(':user_id/properties/:property_id')
+  @Patch(':user_id/:property_id')
   update(
     @Param('property_id', ParseIntPipe) property_id: number,
     @Body() updatePropertyDto: UpdatePropertyDto
@@ -54,7 +54,7 @@ export class PropertyController {
   @ApiOperation({ summary: 'Delete a specific property for a user' })
   @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
   @ApiParam({ name: 'property_id', type: Number, description: 'Property ID' })
-  @Delete(':user_id/properties/:property_id') 
+  @Delete(':user_id/:property_id') 
   remove(
     @Param('user_id', ParseIntPipe) user_id: number,
     @Param('property_id', ParseIntPipe) property_id: number

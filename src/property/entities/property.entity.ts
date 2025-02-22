@@ -23,6 +23,25 @@ export class Property {
     @Column()
     floors: number;
 
+    //
+    @Column()
+    isApartment: boolean;
+
+    @Column()
+    floorNmr: number;
+
+    @Column()
+    images: string[];
+
+    @Column()
+    description: string;
+
+    @Column()
+    status: string;
+
+    @Column()
+    price: number;
+
     @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
     user: User;
 
