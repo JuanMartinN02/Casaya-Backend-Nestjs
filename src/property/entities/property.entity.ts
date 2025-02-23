@@ -1,11 +1,10 @@
-import { Address } from "src/address/entities/address.entity";
 import { User } from "src/user/entities/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({ name: 'Property' })
 export class Property {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment')
     property_id: number;
 
     @Column()
@@ -30,7 +29,7 @@ export class Property {
     @Column()
     floorNmr: number;
 
-    @Column()
+    @Column('text', { array: true })
     images: string[];
 
     @Column()
@@ -42,10 +41,21 @@ export class Property {
     @Column()
     price: number;
 
+    @Column()
+    city: string;
+
+    @Column()
+    zone: string;
+
+    @Column()
+    municipality: string;
+
+    @Column()
+    latitud: string;
+
+    @Column()
+    longitud: string;
+
     @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
     user: User;
-
-    @OneToOne(() => Address, (address) => address.property)
-    @JoinColumn()
-    address: Address;
 }

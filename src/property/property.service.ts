@@ -6,7 +6,6 @@ import { Property } from './entities/property.entity';
 import { updatePropertyParam } from './utils/types';
 import { Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
-import { Address } from 'src/address/entities/address.entity';
 
 @Injectable()
 export class PropertyService {
@@ -15,31 +14,25 @@ export class PropertyService {
     private readonly propertyRepository: Repository<Property>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Address)
-    private readonly addressRepository: Repository<Address>,
   ){}
 
   async create(
     user_id: number,
-    address_id: number,
     createPropertyDto: CreatePropertyDto
   ): Promise<Property> {
     const user = await this.userRepository.findOne({ where: { user_id } });
     if (!user) throw new HttpException('User not found. Cannot create property!', HttpStatus.BAD_REQUEST);
   
-    const address = await this.addressRepository.findOne({ where: { address_id } });
-    if (!address) throw new NotFoundException('Address not found.');
   
     const newProperty = this.propertyRepository.create({
       ...createPropertyDto,
       user,
-      address,
     });
     return await this.propertyRepository.save(newProperty);
   }
 
   // Find all propertys for a given user
-  async findAll(user_id: number): Promise<Property[]> {
+  async findAllByUser(user_id: number): Promise<Property[]> {
     const user = await this.userRepository.findOne({where: { user_id: user_id }});
     if(!user)
       throw new HttpException(
@@ -47,6 +40,11 @@ export class PropertyService {
         HttpStatus.BAD_REQUEST,
       );
     return this.propertyRepository.find({where: { user }})
+  }
+
+  //Find all properties
+  async findAll(): Promise<Property[]>{
+    return this.propertyRepository.find()
   }
 
   // Find a specific property for a given user

@@ -11,4 +11,9 @@ export declare class updatePropertyParam {
     description: string;
     status: string;
     price: number;
+    city: string;
+    zone: string;
+    municipality: string;
+    latitud: string | null;
+    longitud: string | null;
 }

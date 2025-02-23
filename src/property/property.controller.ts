@@ -11,23 +11,28 @@ export class PropertyController {
 
   @ApiOperation({ summary: 'Create a property for a user' })
   @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
-  @ApiParam({ name: 'address_id', type: Number, description: 'Address ID' })
   @ApiBody({ type: CreatePropertyDto })
-  @Post(':user_id/:address_id')
+  @Post(':user_id')
   create(
     @Param('user_id', ParseIntPipe) user_id: number,
-    @Param('address_id', ParseIntPipe) address_id: number,
     @Body() createPropertyDto: CreatePropertyDto,
   ) {
-    return this.propertyService.create(user_id, address_id, createPropertyDto);
+    return this.propertyService.create(user_id, createPropertyDto);
   }
 
   @ApiOperation({ summary: 'Get all properties for a specific user' })
   @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
   @Get(':user_id') 
-  findAll(@Param('user_id', ParseIntPipe) user_id: number) {
-    return this.propertyService.findAll(user_id);
+  findAllByUser(@Param('user_id', ParseIntPipe) user_id: number) {
+    return this.propertyService.findAllByUser(user_id);
   }
+
+  @ApiOperation({ summary: 'Get all properties' })
+  @Get('') 
+  findAll() {
+    return this.propertyService.findAll();
+  }
+
 
   @ApiOperation({ summary: 'Get a specific property for a user' })
   @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
