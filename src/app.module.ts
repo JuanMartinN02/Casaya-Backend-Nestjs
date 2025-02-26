@@ -6,8 +6,6 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { PropertyModule } from './property/property.module';
 import { Property } from './property/entities/property.entity';
-import { AddressModule } from './address/address.module';
-import { Address } from './address/entities/address.entity';
 
 @Module({
   imports: [
@@ -19,7 +17,7 @@ import { Address } from './address/entities/address.entity';
       "password": "password",
       "database": "realestate",
       "logging": true,
-      entities: [User, Property, Address],
+      entities: [User, Property],
       synchronize: true,
       
       /* Reinicia la BD */ 
@@ -27,7 +25,6 @@ import { Address } from './address/entities/address.entity';
     }),
     UserModule,
     PropertyModule,
-    AddressModule
   ],
   controllers: [AppController],
   providers: [AppService],

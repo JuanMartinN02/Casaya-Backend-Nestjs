@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePropertyDto } from './create-property.dto';
-import { ArrayNotEmpty, IsArray, IsBoolean, IsNumber, IsString, Min } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsBoolean, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdatePropertyDto {
@@ -57,4 +57,26 @@ export class UpdatePropertyDto {
     @ApiProperty({ description: 'Price of the property in USD', example: 300000 })
     @IsNumber()
     price: number;
+
+    @ApiProperty({ description: 'City where the property is located', example: 'Los Angeles' })
+    @IsString()
+    city: string;
+
+    @ApiProperty({ description: 'Zone or area within the city', example: 'Downtown' })
+    @IsString()
+    zone: string;
+
+    @ApiProperty({ description: 'Municipality of the property', example: 'LA County' })
+    @IsString()
+    municipality: string;
+
+    @ApiProperty({ description: 'Latitude of the property, can be null', example: '34.052235', required: false })
+    @IsString()
+    @IsOptional()
+    latitud: string | null;
+
+    @ApiProperty({ description: 'Longitude of the property, can be null', example: '-118.243683', required: false })
+    @IsString()
+    @IsOptional()
+    longitud: string | null;
 }
