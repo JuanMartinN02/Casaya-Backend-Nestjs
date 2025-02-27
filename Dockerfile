@@ -1,23 +1,23 @@
-# Use Node.js base image
-FROM node:18-alpine
+# Usa una imagen optimizada de Node.js
+FROM node:18-alpine 
 
-# Set working directory
-WORKDIR /app
+# Establece el directorio de trabajo
+WORKDIR /app 
 
-# Copy package files
-COPY package*.json ./
+# Copia los archivos de dependencias
+COPY package.json package-lock.json ./ 
 
-# Install dependencies
-RUN npm install
+# Instala solo dependencias necesarias
+RUN npm install --omit=dev 
 
-# Copy the rest of the code
-COPY . .
+# Copia el resto del código
+COPY . . 
 
-# Build the app
-RUN npm run build
+# Construye la aplicación y elimina dependencias innecesarias
+RUN npm run build && npm prune --omit=dev 
 
-# Expose the app port
+# Expone el puerto (Railway asigna un puerto dinámico)
 EXPOSE 3000
 
-# Start the application
+# Comando para iniciar la API en modo producción
 CMD ["npm", "run", "start:prod"]

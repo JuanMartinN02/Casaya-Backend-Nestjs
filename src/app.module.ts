@@ -10,18 +10,15 @@ import { Property } from './property/entities/property.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      "type": "postgres",
-      "host": "db",
-      "port": 5432,
-      "username": "user",
-      "password": "password",
-      "database": "realestate",
-      "logging": true,
+      type: 'postgres',
+      url: process.env.DATABASE_URL, 
+      autoLoadEntities: true,
+      logging: true,
       entities: [User, Property],
       synchronize: true,
       
       /* Reinicia la BD */ 
-      dropSchema: true,
+      dropSchema: false,
     }),
     UserModule,
     PropertyModule,
