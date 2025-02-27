@@ -1,20 +1,23 @@
 # Usa una imagen optimizada de Node.js
-FROM node:18-alpine 
+FROM node:18-alpine
 
 # Establece el directorio de trabajo
-WORKDIR /app 
+WORKDIR /app
 
 # Copia los archivos de dependencias
-COPY package.json package-lock.json ./ 
+COPY package.json package-lock.json ./
 
-# Instala solo dependencias necesarias
-RUN npm install --omit=dev 
+# Instala las dependencias necesarias, incluidas las dependencias de desarrollo
+RUN npm install 
+
+# Instala @nestjs/cli globalmente
+RUN npm install -g @nestjs/cli
 
 # Copia el resto del código
-COPY . . 
+COPY . .
 
 # Construye la aplicación y elimina dependencias innecesarias
-RUN npm run build --if-present
+RUN npm run build && npm prune --omit=dev
 
 # Expone el puerto (Railway asigna un puerto dinámico)
 EXPOSE 3000
