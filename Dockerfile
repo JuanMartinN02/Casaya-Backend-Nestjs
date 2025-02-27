@@ -14,7 +14,7 @@ RUN npm install --omit=dev
 COPY . . 
 
 # Construye la aplicación y elimina dependencias innecesarias
-RUN npm run build && npm prune --omit=dev 
+RUN npm run build --if-present
 
 # Expone el puerto (Railway asigna un puerto dinámico)
 EXPOSE 3000
