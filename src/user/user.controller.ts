@@ -55,7 +55,7 @@ export class UserController {
     return this.userService.validateUser(loginDto.email, loginDto.password);
   }
 
-  @Get(':email')
+  @Get('/email/:email')
   async getUserByEmail(@Param('email') email: string) {
     const user = await this.userService.findByEmail(email);
     if (!user) {
