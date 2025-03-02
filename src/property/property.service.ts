@@ -86,4 +86,18 @@ export class PropertyService {
     const property = await this.findOne(user_id, property_id);
     await this.propertyRepository.remove(property);
   }
+
+  //GET user dada una de sus propiedades
+  async getUserByProperty(property_id: number): Promise<User> {
+    const property = await this.propertyRepository.findOne({
+      where: { property_id },
+      relations: ['user'], // Carga la relación con el usuario
+    });
+
+    if (!property) {
+      throw new NotFoundException(`Property with ID ${property_id} not found`);
+    }
+
+    return property.user;
+  }
 }

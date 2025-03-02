@@ -3,6 +3,7 @@ import { PropertyService } from './property.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/user/entities/user.entity';
 
 @ApiTags('Properties')
 @Controller('properties')
@@ -65,5 +66,10 @@ export class PropertyController {
     @Param('property_id', ParseIntPipe) property_id: number
   ) {
     return this.propertyService.remove(user_id, property_id);
+  }
+
+  @Get('user/:property_id')
+  async getUserByProperty(@Param('property_id') property_id: number): Promise<User> {
+    return await this.propertyService.getUserByProperty(property_id);
   }
 }

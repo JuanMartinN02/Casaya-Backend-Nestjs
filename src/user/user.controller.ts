@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put, NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -48,5 +48,19 @@ export class UserController {
   @ApiResponse({ status: 200, description: 'Usuario eliminado exitosamente' })
   remove(@Param('user_id', ParseIntPipe) user_id: number) {
     return this.userService.remove(user_id);
+  }
+
+  @Post('login')
+  async login(@Body() loginDto: { email: string; password: string }): Promise<User> {
+    return this.userService.validateUser(loginDto.email, loginDto.password);
+  }
+
+  @Get(':email')
+  async getUserByEmail(@Param('email') email: string) {
+    const user = await this.userService.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 }

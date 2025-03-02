@@ -1,11 +1,12 @@
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { updateUserParam } from './utils/types';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -45,5 +46,29 @@ export class UserService {
   async remove(user_id: number): Promise <void> {
     const user = await this.findOne(user_id);
     await this.userRepository.remove(user)
+  }
+
+  //Encontrar user por email
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
+  //validar usuario para el login
+  async validateUser(email: string, password: string): Promise<User> {
+    const user = await this.findByEmail(email);
+
+    // Compare hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    return user;
   }
 }
