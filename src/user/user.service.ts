@@ -17,8 +17,11 @@ export class UserService {
 
   //Creates a new user
   async create(createUserDto: CreateUserDto): Promise<User> {
+    console.log('Saving user to DB:', createUserDto);
     const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user)
+    await this.userRepository.save(user);
+    console.log('User saved:', user);
+    return user;
   }
 
   //Returns all user

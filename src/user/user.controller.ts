@@ -15,6 +15,7 @@ export class UserController {
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({ status: 201, description: 'Usuario creado exitosamente', type: User })
   create(@Body() createUserDto: CreateUserDto) {
+    console.log('Received data:', createUserDto);
     return this.userService.create(createUserDto);
   }
 
