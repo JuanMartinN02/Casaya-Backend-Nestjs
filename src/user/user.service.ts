@@ -17,15 +17,13 @@ export class UserService {
 
   //Creates a new user
   async create(createUserDto: CreateUserDto): Promise<User> {
-    try {
-      console.log('Saving user:', createUserDto);  // Verifica si los datos se están recibiendo
-      const user = await this.userRepository.save(createUserDto);
-      console.log('User saved:', user);  // Verifica que el usuario se guarde correctamente
-      return user;
-    } catch (error) {
-      console.error('Error saving user:', error);  // Captura cualquier error al guardar
-      throw error;  // Vuelve a lanzar el error si es necesario
-    }
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    const user = this.userRepository.create({
+      ...createUserDto,
+      password: hashedPassword,  // Guarda la contraseña encriptada
+    });
+  
+    return this.userRepository.save(user);
   }
 
   //Returns all user
