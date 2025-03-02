@@ -1,13 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors(); // Habilitar CORS
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+  app.enableCors({
+    origin: '*',  
+  });
   const port = process.env.PORT || 3000; // Railway asigna un puerto dinámico
   await app.listen(port);
 

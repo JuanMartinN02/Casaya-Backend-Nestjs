@@ -14,9 +14,10 @@ export class UserController {
   @ApiOperation({ summary: 'Crear un nuevo usuario' })
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({ status: 201, description: 'Usuario creado exitosamente', type: User })
-  create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
     console.log('Received data:', createUserDto);
-    return this.userService.create(createUserDto);
+    const user = await this.userService.create(createUserDto);
+    return { message: 'User created successfully', user };
   }
 
   @Get()
