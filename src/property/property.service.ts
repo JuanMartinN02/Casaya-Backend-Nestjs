@@ -52,7 +52,7 @@ export class PropertyService {
     user_id: number,
     property_id: number,
   ): Promise<Property> {
-    const user = await this.userRepository.findOne({where: { user_id: user_id }});
+    const user = await this.userRepository.findOne({where: { user_id: user_id }, relations: ['owner']});
     if(!user)
       throw new HttpException(
         'User not found. Cannot create property!',

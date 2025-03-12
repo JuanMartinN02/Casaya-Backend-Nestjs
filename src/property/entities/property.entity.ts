@@ -56,6 +56,6 @@ export class Property {
     @Column()
     longitud: string;
 
-    @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' ,  eager: true })
     user: User;
 }
