@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {
     @ApiProperty({ description: 'Profile picture URL of the user', example: 'https://profilepicture.url' })
@@ -26,4 +26,9 @@ export class UpdateUserDto {
 
     @ApiProperty({ description: 'Phone number of the user', example: '+1234567890' })
     phone: string;
+
+    @IsOptional()
+    @IsArray()
+    @IsInt({ each: true }) // Asegura que cada elemento del array sea un número entero
+    bookmarks?: number[];
 }

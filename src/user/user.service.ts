@@ -1,5 +1,5 @@
 
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -75,5 +75,23 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async addBookmark(userId: number, propertyId: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { user_id: userId } });
+  
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+  
+    // Verifica si la propiedad ya está en los bookmarks
+    if (user.bookmarks.includes(propertyId)) {
+      throw new BadRequestException('Property already bookmarked');
+    }
+  
+    // Agregar el propertyId al array de bookmarks
+    user.bookmarks.push(propertyId);
+  
+    return this.userRepository.save(user);
   }
 }

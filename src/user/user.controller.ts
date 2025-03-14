@@ -65,4 +65,12 @@ export class UserController {
     }
     return user;
   }
+
+  @Patch(':userId/bookmark/:propertyId')
+  async addBookmark(
+    @Param('userId') userId: number,
+    @Param('propertyId') propertyId: number
+  ): Promise<User> {
+    return this.userService.addBookmark(userId, propertyId);
+  }
 }
