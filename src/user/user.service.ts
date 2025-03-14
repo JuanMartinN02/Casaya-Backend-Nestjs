@@ -1,4 +1,3 @@
-
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,12 +6,15 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { updateUserParam } from './utils/types';
 import * as bcrypt from 'bcrypt';
+import { Property } from 'src/property/entities/property.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Property)
+      private readonly propertyRepository: Repository<Property>
   ){}
 
   //Creates a new user
@@ -77,20 +79,20 @@ export class UserService {
     return user;
   }
 
-  async addBookmark(userId: number, propertyId: number): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { user_id: userId } });
+  async addBookmark(user_id: number, property_id: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { user_id: user_id } });
   
     if (!user) {
       throw new NotFoundException('User not found');
     }
   
     // Verifica si la propiedad ya está en los bookmarks
-    if (user.bookmarks.includes(propertyId)) {
+    if (user.bookmarks.includes(property_id)) {
       throw new BadRequestException('Property already bookmarked');
     }
   
-    // Agregar el propertyId al array de bookmarks
-    user.bookmarks.push(propertyId);
+    // Agregar el property_id al array de bookmarks
+    user.bookmarks.push(property_id);
   
     return this.userRepository.save(user);
   }

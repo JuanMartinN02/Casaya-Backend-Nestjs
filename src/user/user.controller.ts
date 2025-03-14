@@ -66,11 +66,11 @@ export class UserController {
     return user;
   }
 
-  @Patch(':userId/bookmark/:propertyId')
+  @Patch(':user_id/bookmark/:propertyId')
   async addBookmark(
-    @Param('userId') userId: number,
+    @Param('user_id') user_id: number,
     @Param('propertyId') propertyId: number
   ): Promise<User> {
-    return this.userService.addBookmark(userId, propertyId);
+    return this.userService.addBookmark(user_id, propertyId);
   }
 }

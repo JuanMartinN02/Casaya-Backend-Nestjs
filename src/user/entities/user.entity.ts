@@ -25,6 +25,9 @@ export class User {
     @Column()
     phone: string;
 
+    @Column('int', { array: true, default: [] }) // Almacena los IDs de propiedades marcadas
+    bookmarks: number[];
+
     //Relationship with Properties
     @OneToMany(() => Property, (property) => property.user, {
         cascade: true,

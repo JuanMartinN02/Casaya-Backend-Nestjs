@@ -5,4 +5,5 @@ export declare class updateUserParam {
     gender: string;
     email: string;
     phone: string;
+    bookmarks?: number[];
 }
