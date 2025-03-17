@@ -96,4 +96,22 @@ export class UserService {
   
     return this.userRepository.save(user);
   }
+
+  async removeBookmark(user_id: number, property_id: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { user_id: user_id } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Verifica si la propiedad está en los bookmarks
+    if (!user.bookmarks.includes(property_id)) {
+      throw new BadRequestException('Property is not bookmarked');
+    }
+
+    // Remover el property_id del array de bookmarks
+    user.bookmarks = user.bookmarks.filter(id => id !== property_id);
+
+    return this.userRepository.save(user);
+}
 }

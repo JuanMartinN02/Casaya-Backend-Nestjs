@@ -73,4 +73,13 @@ export class UserController {
   ): Promise<User> {
     return this.userService.addBookmark(user_id, propertyId);
   }
+
+  @Delete(':user_id/bookmark/:propertyId')
+  async removeBookmark(
+    @Param('user_id') user_id: number,
+    @Param('propertyId') propertyId: number
+  ): Promise<User> {
+    return this.userService.removeBookmark(user_id, propertyId);
+  }
+
 }
