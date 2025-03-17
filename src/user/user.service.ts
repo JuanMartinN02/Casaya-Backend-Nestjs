@@ -101,17 +101,19 @@ export class UserService {
     const user = await this.userRepository.findOne({ where: { user_id: user_id } });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+        throw new NotFoundException('User not found');
     }
 
+    const propertyIdNumber = Number(property_id); // Convertimos property_id a número
+
     // Verifica si la propiedad está en los bookmarks
-    if (!user.bookmarks.includes(property_id)) {
-      throw new BadRequestException('Property is not bookmarked');
+    if (!user.bookmarks.includes(propertyIdNumber)) {
+        throw new BadRequestException('Property is not bookmarked');
     }
 
     // Remover el property_id del array de bookmarks
-    user.bookmarks = user.bookmarks.filter(id => id !== property_id);
+    user.bookmarks = user.bookmarks.filter(id => id !== propertyIdNumber);
 
     return this.userRepository.save(user);
-}
+  }
 }
