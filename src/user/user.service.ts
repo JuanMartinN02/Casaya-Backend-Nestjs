@@ -17,9 +17,18 @@ export class UserService {
       private readonly propertyRepository: Repository<Property>
   ){}
 
-  //Creates a new user
   async create(createUserDto: CreateUserDto): Promise<User> {
+    // Verificar si el email ya está registrado
+    const existingUser = await this.userRepository.findOne({ where: { email: createUserDto.email } });
+  
+    if (existingUser) {
+      throw new BadRequestException('El correo electrónico ya está en uso.');
+    }
+  
+    // Encriptar la contraseña
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+  
+    // Crear el usuario
     const user = this.userRepository.create({
       ...createUserDto,
       password: hashedPassword,  // Guarda la contraseña encriptada
