@@ -79,11 +79,16 @@ export class PropertyService {
   }
 
   // Delete a specific property
-  async remove(
-    user_id: number,
-    property_id: number,
-  ): Promise<void> {
-    const property = await this.findOne(user_id, property_id);
+  async remove(property_id: number): Promise<void> {
+    // Buscar la propiedad por su ID
+    const property = await this.propertyRepository.findOne({ where: { property_id } });
+  
+    // Verificar si la propiedad existe
+    if (!property) {
+      throw new NotFoundException('Property not found');
+    }
+  
+    // Eliminar la propiedad
     await this.propertyRepository.remove(property);
   }
 

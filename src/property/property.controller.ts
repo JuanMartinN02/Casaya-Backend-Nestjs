@@ -57,15 +57,11 @@ export class PropertyController {
     return this.propertyService.update(property_id, updatePropertyDto);
   }
 
-  @ApiOperation({ summary: 'Delete a specific property for a user' })
-  @ApiParam({ name: 'user_id', type: Number, description: 'User ID' })
+  @ApiOperation({ summary: 'Delete a specific property' })
   @ApiParam({ name: 'property_id', type: Number, description: 'Property ID' })
-  @Delete(':user_id/:property_id') 
-  remove(
-    @Param('user_id', ParseIntPipe) user_id: number,
-    @Param('property_id', ParseIntPipe) property_id: number
-  ) {
-    return this.propertyService.remove(user_id, property_id);
+  @Delete(':property_id')
+  async remove(@Param('property_id', ParseIntPipe) property_id: number) {
+    return this.propertyService.remove(property_id);
   }
 
   @Get('user/:property_id')
